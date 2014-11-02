@@ -1,4 +1,7 @@
-package fpinscala.datastructures
+package fpinscala.datastructures.Either
+
+import fpinscala.datastructures
+import fpinscala.datastructures.List._
 
 sealed trait Either[+E, +A] {
 
@@ -37,12 +40,12 @@ object Either {
     try Right(a)
     catch { case e: Exception => Left(e) }
 
-  def traverse[E, A, B](as: List[A])(f: A => Either[E, B]): Either[E, List[B]] =
-    List.foldLeft(as, Right(Nil): Either[E, List[B]])((b,a) => f(a) match {
+  def traverse[E, A, B](as: datastructures.List.List[A])(f: A => Either[E, B]): Either[E, datastructures.List.List[B]] =
+    List.foldLeft(as, Right(Nil): Either[E, datastructures.List.List[B]])((b,a) => f(a) match {
       case e@Left(_) => e
       case Right(v) => b map (Cons(v,_))
     }) map List.reverse
 
-  def sequence[E, A](es: List[Either[E,A]]): Either[E, List[A]] =
+  def sequence[E, A](es: datastructures.List.List[Either[E,A]]): Either[E, datastructures.List.List[A]] =
     traverse(es)(identity)
 }

@@ -1,4 +1,7 @@
-package fpinscala.datastructures
+package fpinscala.datastructures.List
+
+import fpinscala.datastructures
+import fpinscala.datastructures.Option._
 
 sealed trait List[+A]
 case object Nil extends List[Nothing]
@@ -7,8 +10,8 @@ case class Cons[+A](head: A, tail: List[A]) extends List[A]
 object List {
 
   def tail[A](xs: List[A]): Option[List[A]] = xs match {
-    case Nil => None
-    case Cons(_,ys) => Some(ys)
+    case Nil => datastructures.Option.None
+    case Cons(_,ys) => datastructures.Option.Some(ys)
   }
 
   def drop[A](l: List[A], n: Int): List[A] =
@@ -17,7 +20,7 @@ object List {
     else {
       val tl = tail(l)
       tl match {
-        case None => Nil
+        case datastructures.Option.None => Nil
         case Some(tls) => drop(tls, n - 1)
       }
     }
@@ -33,7 +36,7 @@ object List {
   }
 
   def setHead[A](x: A, xs: List[A]): List[A] = tail(xs) match {
-    case None => Cons(x, Nil)
+    case datastructures.Option.None => Cons(x, Nil)
     case Some(ys) => Cons(x, ys)
   }
 

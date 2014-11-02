@@ -1,4 +1,7 @@
-package fpinscala.datastructures
+package fpinscala.datastructures.Option
+
+import fpinscala.datastructures.List
+import fpinscala.datastructures.List.{Cons, Nil}
 
 sealed trait Option[+A] {
 
@@ -52,12 +55,12 @@ object Option {
       y <- b
     } yield f(x, y)
 
-  def sequence[A](as: List[Option[A]]): Option[List[A]] =
+  def sequence[A](as: List.List[Option[A]]): Option[List.List[A]] =
     traverse(as)(identity)
 
-  def traverse[A,B](as: List[A])(f: A => Option[B]): Option[List[B]] =
-    List.foldLeft(as, Some(Nil): Option[List[B]])((b,a) => f(a) match {
+  def traverse[A,B](as: List.List[A])(f: A => Option[B]): Option[List.List[B]] =
+    List.List.foldLeft(as, Some(Nil): Option[List.List[B]])((b,a) => f(a) match {
       case None => None
       case Some(x) => b map (Cons(x,_))
-    }) map List.reverse
+    }) map List.List.reverse
 }
